@@ -1,7 +1,7 @@
 <templates xml:space="preserve">
     <t t-name="awesome_clicker.ClickerClientAction">
         <div class="d-flex flex-column">
-            <span>Number of clicks: <t t-esc="clickService.state.clicks"/></span>
+            <span>Number of clicks: <ClickerValue /></span>
             <button class="btn btn-primary" t-on-click="() => this.clickService.increaseCounter(9)">
                 Increment <i class="fa fa-lg fa-plus"></i>
             </button>

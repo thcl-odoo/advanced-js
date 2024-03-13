@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
     <t t-name="awesome_clicker.ClickerSystray">
         <div class="o_nav_entry">
-            Counter: <t t-esc="clickService.state.clicks"/>
+            Counter: <ClickerValue />
             <button class="btn btn-secondary" t-on-click="() => this.clickService.increaseCounter(9)">
                 <i class="fa fa-lg fa-plus"></i>
             </button>
