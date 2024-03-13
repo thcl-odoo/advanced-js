@@ -8,11 +8,26 @@ export class ClickerModel extends Reactive {
         super();
         this.clicks = 0;
         this.level = 0;
-        this.clickBots = 0;
+        this.bots = {
+            normal: {
+                minLevel: 1,
+                price: 1000,
+                bought: 0,
+                increaseBy: 10,
+            },
+            big: {
+                minLevel: 2,
+                price: 5000,
+                bought: 0,
+                increaseBy: 100,
+            }
+        }
         this.eventBus = new EventBus();
 
         setInterval(() => {
-            this.clicks += this.clickBots * 10;
+            for (const bot in this.bots) {
+                this.clicks += this.bots[bot].bought * this.bots[bot].increaseBy;
+            }
         }, 10 * 1000); // 10s
 
         document.addEventListener("click", () => this.increaseCounter(1), { capture: true } );
@@ -21,9 +36,12 @@ export class ClickerModel extends Reactive {
 
     increaseCounter(inc) {
         this.clicks += inc;
-        if (this.level === 0 && this.clicks >= 1000) {
+        const milestones = this.milestones();
+        const currentMillestone = milestones[this.level];
+        if (currentMillestone && this.clicks >= currentMillestone.minClick) {
             this.level++;
-            this.eventBus.trigger("MILESTONE_1k");
+            if (currentMillestone.event !== null)
+                this.eventBus.trigger(currentMillestone.event, currentMillestone.gain);
         }
     }
 
@@ -33,12 +51,29 @@ export class ClickerModel extends Reactive {
             this.level--;
     }
 
-    buyClickBot() {
-        const clickBotPrice = 1000;
-        if (this.clicks < clickBotPrice)
-            return;
+    buyBot(botName) {
+        if (!(botName in this.bots))
+            throw new Error("Invalid bot name");
 
-        this.clicks -= clickBotPrice;
-        this.clickBots++;
+        if (this.clicks < this.bots[botName].price)
+            throw new Error("Not enough clicks to buy this");
+
+        this.clicks -= this.bots[botName].price;
+        this.bots[botName].bought += 1;
+    }
+
+    milestones() {
+        return {
+            0: {
+                minClick: 1000,
+                event: "MILESTONE",
+                gain: "normal bots",
+            },
+            1: {
+                minClick: 5000,
+                event: "MILESTONE",
+                gain: "big bots",
+            },
+        }
     }
 }

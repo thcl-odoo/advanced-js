@@ -7,10 +7,10 @@ const clickerService = {
     dependencies: ["effect"],
     start(env, { effect }) {
        const clickerModel = new ClickerModel();
-       clickerModel.eventBus.addEventListener("MILESTONE_1k", () => {
+       clickerModel.eventBus.addEventListener("MILESTONE", (event) => {
             effect.add({
                 type: "rainbow_man",
-                message: "GGWP! You can buy clickbots",
+                message: `GGWP! You can now buy ${event.detail}`,
             });
        });
        return clickerModel;
