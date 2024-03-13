@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import { Component, useState, useExternalListener } from "@odoo/owl";
+import { Component, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
@@ -8,20 +8,14 @@ export class ClickerSystrayItem extends Component {
     // Same behavior
     // ClickerSystrayItem.template = "awesome_clicker.ClickerSystray";
     static template = "awesome_clicker.ClickerSystray";
+    static props = {}; // Prevents "Component 'ClickerSystrayItem' does not have a static props description" warning message
+
     setup() {
         this.state = useState({
             counter: 0,
         });
         this.action = useService("action");
-        useExternalListener(document.body, "click", () => this.state.counter++, { capture: true });
-    }
-
-    increaseCounter() {
-        this.state.counter += 9;
-    }
-
-    decreaseCounter() {
-        this.state.counter -= 11;
+        this.clickService = useState(useService("awesome_clicker.ClickerService"));
     }
 
     openClientAction() {
