@@ -4,8 +4,16 @@ import { registry } from "@web/core/registry";
 import {ClickerModel} from "./clicker_model";
 
 const clickerService = {
-    start() {
-       return new ClickerModel();
+    dependencies: ["effect"],
+    start(env, { effect }) {
+       const clickerModel = new ClickerModel();
+       clickerModel.eventBus.addEventListener("MILESTONE_1k", () => {
+            effect.add({
+                type: "rainbow_man",
+                message: "GGWP! You can buy clickbots",
+            });
+       });
+       return clickerModel;
     }
 }
 

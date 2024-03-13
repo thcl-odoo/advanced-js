@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
 import { Reactive } from "@web/core/utils/reactive";
+import { EventBus } from "@odoo/owl";
 
 export class ClickerModel extends Reactive {
     constructor() {
@@ -8,6 +9,7 @@ export class ClickerModel extends Reactive {
         this.clicks = 0;
         this.level = 0;
         this.clickBots = 0;
+        this.eventBus = new EventBus();
 
         setInterval(() => {
             this.clicks += this.clickBots * 10;
@@ -19,8 +21,10 @@ export class ClickerModel extends Reactive {
 
     increaseCounter(inc) {
         this.clicks += inc;
-        if (this.level === 0 && this.clicks >= 1000)
+        if (this.level === 0 && this.clicks >= 1000) {
             this.level++;
+            this.eventBus.trigger("MILESTONE_1k");
+        }
     }
 
     decreaseCounter(inc) {
