@@ -3,6 +3,7 @@
 import { Component, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { useClick } from "../clicker_hook";
 
 export class ClickerSystrayItem extends Component {
     // Same behavior
@@ -15,7 +16,7 @@ export class ClickerSystrayItem extends Component {
             counter: 0,
         });
         this.action = useService("action");
-        this.clickService = useState(useService("awesome_clicker.ClickerService"));
+        this.clickService = useClick();
     }
 
     openClientAction() {
