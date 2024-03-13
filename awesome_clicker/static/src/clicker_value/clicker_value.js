@@ -13,7 +13,7 @@ export class ClickerValue extends Component {
     }
 
     get humanizedCounterValue() {
-        return humanNumber(this.clickService.state.clicks, {
+        return humanNumber(this.clickService.clicks, {
             decimals: 1,
         });
     }
