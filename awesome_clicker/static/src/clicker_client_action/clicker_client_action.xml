@@ -6,5 +6,18 @@
                 Increment <i class="fa fa-lg fa-plus"></i>
             </button>
         </div>
+        <div t-if="this.clickService.level >= 1">
+            <h2>Bots</h2>
+             <div class="card">
+                <div class="card-header">
+                    <t t-esc="this.clickService.clickBots"/>x ClickBots (= <t t-esc="this.clickService.clickBots * 10"/> clicks/10seconds)
+                </div>
+                <div class="card-body">
+                    <button t-on-click="() => this.clickService.buyClickBot()" class="btn btn-primary" t-att-disabled="this.clickService.clicks &lt; 1000">
+                        Buy more ClickBot (1000 clicks)
+                    </button>
+                </div>
+            </div>
+        </div>
     </t>
 </templates>
