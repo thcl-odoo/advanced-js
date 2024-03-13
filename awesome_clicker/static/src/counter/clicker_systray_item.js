@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import { Component, useState } from "@odoo/owl";
+import { Component, useState, useExternalListener } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 
 export class SystrayCounter extends Component {
@@ -11,14 +11,15 @@ export class SystrayCounter extends Component {
         this.state = useState({
             counter: 0,
         });
+        useExternalListener(document.body, "click", () => this.state.counter++, { capture: true });
     }
 
     increaseCounter() {
-        this.state.counter++;
+        this.state.counter += 9;
     }
 
     decreaseCounter() {
-        this.state.counter--;
+        this.state.counter -= 11;
     }
 }
 
