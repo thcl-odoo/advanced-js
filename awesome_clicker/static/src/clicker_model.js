@@ -23,10 +23,11 @@ export class ClickerModel extends Reactive {
             }
         }
         this.eventBus = new EventBus();
+        this.clickMultiplier = 1;
 
         setInterval(() => {
             for (const bot in this.bots) {
-                this.clicks += this.bots[bot].bought * this.bots[bot].increaseBy;
+                this.clicks += this.bots[bot].bought * this.bots[bot].increaseBy * this.clickMultiplier;
             }
         }, 10 * 1000); // 10s
 
@@ -62,18 +63,31 @@ export class ClickerModel extends Reactive {
         this.bots[botName].bought += 1;
     }
 
+    buyClickMultiplier() {
+        if (this.clicks < 50_000)
+            throw new Error("Not enough clicks to buy this");
+
+        this.clicks -= 50_000;
+        this.clickMultiplier++;
+    }
+
     milestones() {
         return {
             0: {
-                minClick: 1000,
+                minClick: 1_000,
                 event: "MILESTONE",
                 gain: "normal bots",
             },
             1: {
-                minClick: 5000,
+                minClick: 5_000,
                 event: "MILESTONE",
                 gain: "big bots",
             },
+            2: {
+                minClick: 100_000,
+                event: "MILESTONE",
+                gain: "click multiplier",
+            }
         }
     }
 }
