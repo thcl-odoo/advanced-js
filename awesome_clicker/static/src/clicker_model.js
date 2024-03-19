@@ -75,10 +75,11 @@ export class ClickerModel extends Reactive {
 
     winReward() {
         const possibleRewards = rewards.filter(reward => {
-            return this.level >= reward.minLevel && this.level <= reward.maxLevel;
+            return (reward.minLevel === undefined || this.level >= reward.minLevel) && (reward.maxLevel === undefined || this.level <= reward.maxLevel);
         });
-
-        return possibleRewards.getRandomElement();
+        const reward = possibleRewards.getRandomElement();
+        this.eventBus.trigger("WIN_REWARD", reward);
+        return reward;
     }
 
     milestones() {
